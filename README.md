@@ -8,9 +8,9 @@ below to implement the router in a php file.
 ### Basic Route
 ```php
 $router = new Router();
-$router->addRoute("/");
-$router->addRoute("/home");
-$router->addRoute("/about");
+$router->addRoute("/", function(){echo "This will be executed!";});
+$router->addRoute("/home", function(){echo "This will be executed!";});
+$router->addRoute("/about", function(){echo "This will be executed!";});
 $router->respond();
 ```
 ### Advance Route
@@ -21,14 +21,14 @@ with the first being the parameter name  followed by a | and then it's type:
 
 ```php
 $router = new Router();
-$router->addRoute("/posts");
-$router->addRoute("/post/[id|d]");
+$router->addRoute("/posts", function(){echo "This will be executed!";});
+$router->addRoute("/post/[id|d]", function(){echo "This will be executed!";});
 $router->respond();
 ```
 
 ## TODO
-* Add function caller to finish the router and make it functional.
 * Fix regex only reading one character or digit with an advance route.
+* Add advance route handling.
 * Add error checking.
 * Add error handling.
 * Add an option to install via composer

@@ -21,12 +21,18 @@
         private $regex = "";
 
         /**
+        * @type: function
+        */
+        private $func;
+
+        /**
         * @description: default constructor that takes route and generates regex
         * @param: $route(string) is the route this object will hold
         * @return: void
         */
-        function __construct($route){
-            $this->route = strtoupper($route);
+        function __construct($route,$func){
+            $this->route = strtolower($route);
+            $this->func = $func;
             $this->generateRegex();
         }
 
@@ -82,6 +88,15 @@
         */
         public function getRegex(){
             return $this->regex;
+        }
+
+        /**
+        * @description: executes the command
+        * @param: array of arguments
+        * @return: none
+        */
+        public function run($args){
+            call_user_func_array($this->func, $args);
         }
 
     }

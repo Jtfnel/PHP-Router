@@ -28,8 +28,8 @@
         * @return: void
         */
         function __construct(){
-            $uri = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], "/", 1) + 1);
-            $script = substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], "/", 1) + 1);
+            $uri = strtolower(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], "/", 1) + 1));
+            $script = strtolower(substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], "/", 1) + 1));
             if(strpos($uri, "%20") !== false){
                 $temp = str_replace("%20", " ", $uri);
             }
@@ -37,9 +37,9 @@
                 $script = str_replace("%20", " ", $script);
             }
             if($temp == $script){
-                $this->request = "/" . ltrim($_SERVER['REQUEST_URI'], $uri);
+                $this->request = substr_replace(strtolower($_SERVER['REQUEST_URI']), '', 0, strpos($_SERVER['REQUEST_URI'], "/", 1));
             }
-            $this->request = strtoupper($this->request);
+            $this->request = strtolower($this->request);
         }
 
         /**
@@ -47,15 +47,15 @@
         * @param: $route(string) the route to be added to the router
         * @return: void
         */
-        public function addRoute($route){
+        public function addRoute($route,$func){
             // @TODO: add checking to ensure route is valid.
             if(strpos($route, "/", 1) !== false){
                 $key = substr($route, 0, strpos($route, "/", 1));
             }else{
                 $key = $route;
             }
-            $key = strtoupper($key);
-            $this->routes[$key][] = new Route($route);
+            $key = strtolower($key);
+            $this->routes[$key][] = new Route($route,$func);
         }
 
         /**
@@ -70,17 +70,19 @@
                 $key = $this->request;
             }
             $found = false;
+            $routeto;
             if(array_key_exists($key, $this->routes)){
                 foreach($this->routes[$key] as $route){
                     $regex = $route->getRegex();
                     if(preg_match($regex, $this->request)){
+                        $routeto = $route;
                         $found = true;
                         break;
                     }
                 }
             }
             if($found){
-                // @TODO: implement calling of correct controller or function
+                $routeto->run(array(NULL));
             }else{
                 // @TODO: implement handling of erros like 404
             }
