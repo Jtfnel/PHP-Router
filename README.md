@@ -1,6 +1,6 @@
 # PHP-Router
 This is a very basic php router.
-This is library is still in development and should be finished soon.
+This is library is still in development but it is fully operational at this moment.
 
 ## How to use?
 Add the files found in the htaccess folder to your project and then use the code
