@@ -55,10 +55,10 @@
                 $regex = $regex . "\/";
                 if(strpos($route, "[") == 1){
                     $type = substr($route, strpos($route, "|") + 1, 1);
-                    if($type == "D"){
-                        $regex = $regex . "\d";
-                    }else if($type == "W"){
-                        $regex = $regex . "\w";
+                    if($type == "d"){
+                        $regex = $regex . "\d+";
+                    }else if($type == "w"){
+                        $regex = $regex . "\w+";
                     }
                 }else{
                     $regex = $regex . ltrim($key, "/");
@@ -96,7 +96,7 @@
         * @return: none
         */
         public function run($args){
-            call_user_func_array($this->func, $args);
+            call_user_func($this->func, $args);
         }
 
     }
