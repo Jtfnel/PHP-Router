@@ -7,9 +7,10 @@ Add the files found in the htaccess folder to your project and then use the code
 below to implement the router in a php file.
 For 403 and 404 errors just add it as the second parameter in the addRoute function otherwise
 add NULL
+Initiate the router with a true instead of false if it is located in a subfolder
 ### Basic Route
 ```php
-$router = new Router();
+$router = new Router(false);
 //addRoute(Route, Special-Type, Function-To-Execute);
 $router->addRoute("/", NULL, function(){echo "This will be executed!";});
 $router->addRoute("/home", NULL, function(){echo "This will be executed!";});

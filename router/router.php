@@ -37,19 +37,23 @@
         * @param: void
         * @return: void
         */
-        function __construct(){
-            $uri = strtolower(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], "/", 1) + 1));
-            $script = strtolower(substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], "/", 1) + 1));
-            if(strpos($uri, "%20") !== false){
-                $temp = str_replace("%20", " ", $uri);
+        function __construct($subfolder){
+            if($subfolder){
+                $uri = strtolower(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], "/", 1) + 1));
+                $script = strtolower(substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], "/", 1) + 1));
+                if(strpos($uri, "%20") !== false){
+                    $temp = str_replace("%20", " ", $uri);
+                }
+                if(strpos($script, "%20") !== false){
+                    $script = str_replace("%20", " ", $script);
+                }
+                if($temp == $script){
+                    $this->request = substr_replace(strtolower($_SERVER['REQUEST_URI']), '', 0, strpos($_SERVER['REQUEST_URI'], "/", 1));
+                }
+                $this->request = strtolower($this->request);
+            }else{
+                $this->request = strtolower($_SERVER['REQUEST_URI']);
             }
-            if(strpos($script, "%20") !== false){
-                $script = str_replace("%20", " ", $script);
-            }
-            if($temp == $script){
-                $this->request = substr_replace(strtolower($_SERVER['REQUEST_URI']), '', 0, strpos($_SERVER['REQUEST_URI'], "/", 1));
-            }
-            $this->request = strtolower($this->request);
         }
 
         /**
